@@ -1,9 +1,9 @@
-name: Supabase Keep Alive Test
+name: Supabase Keep Alive
 
 on:
   schedule:
-    # 每 5 分钟执行一次
-    - cron: "*/5 * * * *"
+    # 每天 UTC 0 点执行一次 → 北京时间早上 8 点
+    - cron: "0 0 * * *"
   workflow_dispatch: # 支持手动运行
 
 jobs:
@@ -13,7 +13,6 @@ jobs:
       - name: Ping Supabase table
         run: |
           echo "=== Requesting Supabase API ==="
-          # 发请求并保存响应
           STATUS=$(curl -s -o response.json -w "%{http_code}" \
             -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
             "https://zzglunzkgcolwhmwyzjo.supabase.co/rest/v1/meter_readings?limit=1")
